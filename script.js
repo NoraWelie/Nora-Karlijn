@@ -22,6 +22,7 @@ class Raster {
   }
 }
 
+
 class Jos {
   constructor() {
     this.x = 400;
@@ -67,6 +68,15 @@ class Jos {
       return false;
     }
   }
+
+  eet(appel){
+    if (this.x == appel.x && this.y == vijand.y){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
   
   toon() {
     image(this.animatie[this.frameNummer],this.x,this.y,raster.celGrootte,raster.celGrootte);
@@ -95,7 +105,7 @@ class Vijand {
 }
 
 class Appel{
-  constructor(x,y) {
+  constructor() {
  this.x = Math.floor(Math.random() * (canvas.width - raster.celGrootte));
     this.y = Math.floor(Math.random() * (canvas.height - raster.celGrootte)); 
     this.sprite = null;
@@ -134,7 +144,7 @@ function setup() {
   bob.stapGrootte = 1*eve.stapGrootte;
   bob.sprite = loadImage("images/sprites/Bob100px/Bob.png");  
 
-  appel = new Appel(60,40);
+  appel = new Appel;
   appel.sprite = loadImage("images/sprites/appel_1.png");
 }
 
@@ -150,8 +160,14 @@ function draw() {
   appel.toon();
   
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
-    noLoop();
+    if (levens === 0){
+      noLoop();
+    }
+    else {
+    levens -= 1;
+    }
   }
+
   
   if (eve.gehaald) {
     background('green');
