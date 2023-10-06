@@ -32,6 +32,7 @@ class Jos {
     this.gehaald = false;
   }
   
+  
   beweeg() {
     if (keyIsDown(LEFT_ARROW)) {
       this.x -= this.stapGrootte;
@@ -93,6 +94,15 @@ class Vijand {
   }
 }
 
+class Appel{
+  constructor(x,y) {
+    this.x = x;
+    this.y = y;
+  }
+  toon(){   image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
+  }
+}
+
 function preload() {
   brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
 }
@@ -122,6 +132,9 @@ function setup() {
   bob = new Vijand(600,400);
   bob.stapGrootte = 1*eve.stapGrootte;
   bob.sprite = loadImage("images/sprites/Bob100px/Bob.png");  
+
+  appel = new Appel(600,400);
+  appel.sprite = loadImage("images/sprites/appel_1.png");
 }
 
 function draw() {
@@ -133,6 +146,7 @@ function draw() {
   eve.toon();
   alice.toon();
   bob.toon();
+  appel.toon();
   
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
     noLoop();
