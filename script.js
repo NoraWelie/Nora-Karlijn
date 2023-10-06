@@ -98,6 +98,7 @@ class Appel{
   constructor(x,y) {
     this.x = x;
     this.y = y;
+    this.sprite = null;
   }
   toon(){   image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
@@ -114,7 +115,7 @@ function setup() {
   textFont("Verdana");
   textSize(90);
   
-  raster = new Raster(6,9);
+  raster = new Raster(12,18);
   
   raster.berekenCelGrootte();
   
@@ -133,7 +134,7 @@ function setup() {
   bob.stapGrootte = 1*eve.stapGrootte;
   bob.sprite = loadImage("images/sprites/Bob100px/Bob.png");  
 
-  appel = new Appel(600,400);
+  appel = new Appel(randomX,400);
   appel.sprite = loadImage("images/sprites/appel_1.png");
 }
 
