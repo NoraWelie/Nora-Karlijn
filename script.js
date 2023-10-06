@@ -34,19 +34,19 @@ class Jos {
   
   
   beweeg() {
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(65)) {
       this.x -= this.stapGrootte;
       this.frameNummer = 2;
     }
-    if (keyIsDown(RIGHT_ARROW)) {
+    if (keyIsDown(68)) {
       this.x += this.stapGrootte;
       this.frameNummer = 1;
     }
-    if (keyIsDown(UP_ARROW)) {
+    if (keyIsDown(87)) {
       this.y -= this.stapGrootte;
       this.frameNummer = 4;
     }
-    if (keyIsDown(DOWN_ARROW)) {
+    if (keyIsDown(83)) {
       this.y += this.stapGrootte;
       this.frameNummer = 5;
     }
@@ -96,8 +96,8 @@ class Vijand {
 
 class Appel{
   constructor(x,y) {
-    this.x = x;
-    this.y = y;
+ this.x = Math.floor(Math.random() * (canvas.width - raster.celGrootte));
+    this.y = Math.floor(Math.random() * (canvas.height - raster.celGrootte)); 
     this.sprite = null;
   }
   toon(){   image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
@@ -134,7 +134,7 @@ function setup() {
   bob.stapGrootte = 1*eve.stapGrootte;
   bob.sprite = loadImage("images/sprites/Bob100px/Bob.png");  
 
-  appel = new Appel(randomX,400);
+  appel = new Appel(60,40);
   appel.sprite = loadImage("images/sprites/appel_1.png");
 }
 
