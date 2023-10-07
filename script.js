@@ -22,6 +22,7 @@ class Raster {
   }
 }
 
+var levens = 1;
 
 class Jos {
   constructor() {
@@ -70,12 +71,7 @@ class Jos {
   }
 
   eet(appel){
-    if (this.x == appel.x && this.y == vijand.y){
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.x === appel.x && this.y === appel.y;
   }
   
   toon() {
@@ -106,8 +102,8 @@ class Vijand {
 
 class Appel{
   constructor() {
- this.x = Math.floor(Math.random() * (canvas.width - raster.celGrootte));
-    this.y = Math.floor(Math.random() * (canvas.height - raster.celGrootte)); 
+this.x = Math.floor(Math.random() * (canvas.width / raster.celGrootte)) * raster.celGrootte;
+    this.y = Math.floor(Math.random() * (canvas.height / raster.celGrootte)) * raster.celGrootte; 
     this.sprite = null;
   }
   toon(){   image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
@@ -160,14 +156,25 @@ function draw() {
   appel.toon();
   
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
-    if (levens === 0){
-      noLoop();
-    }
-    else {
     levens -= 1;
-    }
   }
 
+  if (eve.eet(appel)){
+    levens += 1;
+    appel = new Appel();
+    appel.sprite = loadImage("images/sprites/appel_1.png");
+  }
+
+  textSize(24); 
+  fill('black'); 
+  text("Aantal levens: " + levens, 10, 30); 
+  
+  if (levens === 0){
+    background('red');
+    fill('black');
+    text("Je hebt verloren",30,300);
+    noLoop();
+  }
   
   if (eve.gehaald) {
     background('green');
