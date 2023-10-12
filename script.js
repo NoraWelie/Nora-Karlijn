@@ -1,6 +1,10 @@
 var bommen = [];
 var levens = 1;
 var bezetteKolommen = [];
+var appel2;
+
+let appelBadge = false;
+
 
 class Raster {
   constructor(r,k) {
@@ -9,11 +13,11 @@ class Raster {
     this.celGrootte = null;
     this.orangeRegel = r;
   }
-  
+
   berekenCelGrootte() {
     this.celGrootte = canvas.width / this.aantalKolommen;
   }
-  
+
   teken() {
     push();
     noFill();
@@ -41,8 +45,8 @@ class Jos {
     this.stapGrootte = null;
     this.gehaald = false;
   }
-  
-  
+
+
   beweeg() {
     if (keyIsDown(65)) {
       this.x -= this.stapGrootte;
@@ -60,15 +64,15 @@ class Jos {
       this.y += this.stapGrootte;
       this.frameNummer = 5;
     }
-    
+
     this.x = constrain(this.x,0,canvas.width);
     this.y = constrain(this.y,0,canvas.height - raster.celGrootte);
-    
+
     if (this.x == canvas.width) {
       this.gehaald = true;
     }
   }
-  
+
   wordtGeraakt(vijand) {
     if (this.x == vijand.x && this.y == vijand.y) {
       return true;
@@ -81,12 +85,12 @@ class Jos {
   eet(appel){
     return this.x === appel.x && this.y === appel.y;
   }
-  
+
   wordtGeraakt(bom) {
   const afstand = dist(this.x, this.y, bom.x, bom.y);
   return afstand < raster.celGrootte / 2; 
 }
-  
+
   toon() {
     image(this.animatie[this.frameNummer],this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
@@ -107,7 +111,7 @@ class Vijand {
     this.x = constrain(this.x,0,canvas.width - raster.celGrootte);
     this.y = constrain(this.y,0,canvas.height - raster.celGrootte);
   }
-  
+
   toon() {
     image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
@@ -146,11 +150,21 @@ class Bom{
 
     this.y += this.direction * this.speed;
   }
-  
-  
+
+
   toon() {
     image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
+}
+
+class Badges{
+  constructor (x,y){
+    this.x = x;
+    this.y = y;
+    this.sprite = null;
+    this.size = 20;
+  }
+
 }
 
 function preload() {
@@ -164,18 +178,18 @@ function setup() {
   frameRate(10);
   textFont("Verdana");
   textSize(90);
-  
+
   raster = new Raster(12,18);
-  
+
   raster.berekenCelGrootte();
-  
+
   eve = new Jos();
   eve.stapGrootte = 1*raster.celGrootte;
   for (var b = 0;b < 6;b++) {
     frameEve = loadImage("images/sprites/Eve100px/Eve_" + b + ".png");
     eve.animatie.push(frameEve);
   }
-  
+
   alice = new Vijand(700,200);
   alice.stapGrootte = 1*eve.stapGrootte;
   alice.sprite = loadImage("images/sprites/Alice100px/Alice.png");
@@ -201,6 +215,8 @@ function setup() {
     bezetteKolommen.push(x);
     bom.speed = random(5,20);
   }
+  appel2 = new Badges(20, 60);
+  appel2.sprite = loadImage("images/sprites/appel_2.png");
 }
 
 function draw() {
@@ -214,7 +230,7 @@ function draw() {
   alice.toon();
   bob.toon();
   appel.toon();
-  
+
   for (var i = 0; i < bommen.length; i++) {
   var bom = bommen[i];
   bom.beweeg();
@@ -224,14 +240,14 @@ function draw() {
   }
 
   bom.toon();
-  
+
   if (eve.wordtGeraakt(bom)) {
     levens -= 1;
   }
 }
 
 
-  
+
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
     levens -= 1;
   }
@@ -248,7 +264,7 @@ function draw() {
   textSize(24); 
   fill('black'); 
   text("Aantal levens: " + levens, 10, 30); 
-  
+
   if (levens === 0){
     background('maroon');
     textSize(60);
@@ -256,7 +272,18 @@ function draw() {
     text("Je hebt verloren...",200,300);
     noLoop();
   }
-  
+
+  if (levens === 15){
+    appelBadge = true;
+  }
+
+  if (appelBadge === true){
+    textSize(17); 
+    fill('black'); 
+    text("Appelverzamelaar: 15x", 10, 60);
+    image(appel2.sprite, 210, 45, appel2.size, appel2.size);
+  }
+
   if (eve.gehaald) {
     background('green');
     textSize(60);
