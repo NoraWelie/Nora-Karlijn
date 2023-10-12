@@ -3,6 +3,7 @@ class Raster {
     this.aantalRijen = r;
     this.aantalKolommen = k;
     this.celGrootte = null;
+    this.orangeRegel = r;
   }
   
   berekenCelGrootte() {
@@ -15,6 +16,11 @@ class Raster {
     stroke('grey');
     for (var rij = 0;rij < this.aantalRijen;rij++) {
       for (var kolom = 0;kolom < this.aantalKolommen;kolom++) {
+        if (rij === this.orangeRegel - 1 || kolom === this.orangeRegel + 5) {
+          fill('orange');
+        } else{
+          noFill();
+        }
         rect(kolom*this.celGrootte,rij*this.celGrootte,this.celGrootte,this.celGrootte);
       }
     }
@@ -26,7 +32,7 @@ var levens = 1;
 
 class Jos {
   constructor() {
-    this.x = 400;
+    this.x = 0;
     this.y = 300;
     this.animatie = [];
     this.frameNummer =  3;
@@ -114,6 +120,7 @@ function preload() {
   brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
 }
 
+
 function setup() {
   canvas = createCanvas(900,600);
   canvas.parent();
@@ -142,6 +149,7 @@ function setup() {
 
   appel = new Appel;
   appel.sprite = loadImage("images/sprites/appel_1.png");
+
 }
 
 function draw() {
@@ -150,6 +158,7 @@ function draw() {
   eve.beweeg();
   alice.beweeg();
   bob.beweeg();
+
   eve.toon();
   alice.toon();
   bob.toon();
@@ -170,16 +179,18 @@ function draw() {
   text("Aantal levens: " + levens, 10, 30); 
   
   if (levens === 0){
-    background('red');
-    fill('black');
-    text("Je hebt verloren",30,300);
+    background('maroon');
+    textSize(60);
+    fill('white');
+    text("Je hebt verloren...",200,300);
     noLoop();
   }
   
   if (eve.gehaald) {
     background('green');
+    textSize(60);
     fill('white');
-    text("Je hebt gewonnen!",30,300);
+    text("Je hebt gewonnen!",180,300);
     noLoop();
   }
 }
