@@ -1,3 +1,7 @@
+var bommen = [];
+var levens = 1;
+var bezetteKolommen = [];
+
 class Raster {
   constructor(r,k) {
     this.aantalRijen = r;
@@ -27,8 +31,6 @@ class Raster {
     pop();
   }
 }
-
-var levens = 1;
 
 class Jos {
   constructor() {
@@ -80,6 +82,11 @@ class Jos {
     return this.x === appel.x && this.y === appel.y;
   }
   
+  wordtGeraakt(bom) {
+  const afstand = dist(this.x, this.y, bom.x, bom.y);
+  return afstand < raster.celGrootte / 2; 
+}
+  
   toon() {
     image(this.animatie[this.frameNummer],this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
@@ -113,6 +120,36 @@ this.x = Math.floor(Math.random() * (canvas.width / raster.celGrootte)) * raster
     this.sprite = null;
   }
   toon(){   image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
+  }
+}
+
+class Bom{
+  constructor(x,y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = null;
+    this.stapGrootte = null;
+    this.speed = null;
+    this.direction = 1;
+  }
+
+  beweeg() {
+    const maxY = canvas.height - raster.celGrootte;
+
+      if (this.y < 0) {
+      this.direction = 1;
+      this.y = 0;
+    } else if (this.y > maxY) {
+      this.direction = -1;
+      this.y = maxY; 
+    }
+
+    this.y += this.direction * this.speed;
+  }
+  
+  
+  toon() {
+    image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
 }
 
@@ -150,6 +187,20 @@ function setup() {
   appel = new Appel;
   appel.sprite = loadImage("images/sprites/appel_1.png");
 
+    for (var i = 0; i < 5; i++) {
+        var x, y;
+    do {
+      x = (Math.floor(Math.random() * (canvas.width / raster.celGrootte / 2)) + Math.floor(canvas.width / raster.celGrootte / 2)) * raster.celGrootte;
+  } while (bezetteKolommen.includes(x));
+
+    y = Math.floor(random(canvas.height - raster.celGrootte));
+    var bom = new Bom(x,y);
+    bom.stapGrootte = 1 * eve.stapGrootte;
+    bom.sprite = loadImage("images/sprites/bom.png");
+    bommen.push(bom);
+    bezetteKolommen.push(x);
+    bom.speed = random(5,20);
+  }
 }
 
 function draw() {
@@ -164,6 +215,23 @@ function draw() {
   bob.toon();
   appel.toon();
   
+  for (var i = 0; i < bommen.length; i++) {
+  var bom = bommen[i];
+  bom.beweeg();
+
+  if (bom.y < 0 || bom.y > canvas.height - raster.celGrootte) {
+    bom.direction *= -1;
+  }
+
+  bom.toon();
+  
+  if (eve.wordtGeraakt(bom)) {
+    levens -= 1;
+  }
+}
+
+
+  
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
     levens -= 1;
   }
@@ -173,6 +241,9 @@ function draw() {
     appel = new Appel();
     appel.sprite = loadImage("images/sprites/appel_1.png");
   }
+
+
+
 
   textSize(24); 
   fill('black'); 
