@@ -220,7 +220,7 @@ function setup() {
     bezetteKolommen.push(x);
     bom.speed = random(5,20);
   }
-  appel2 = new Badges(20, 60);
+  appel2 = new Badges(20, 70);
   appel2.sprite = loadImage("images/sprites/appel_2.png");
 }
 
@@ -272,6 +272,8 @@ function draw() {
   text("Gespeelde tijd: " + Math.floor(gespeeldeTijd / 1000) + " seconden", 10, 50);
 
   if (levens === 0){
+    tijdBadge = false;
+    appelBadge = false;
     background('maroon');
     textSize(60);
     fill('white');
@@ -286,15 +288,15 @@ function draw() {
 });
   } 
 
-  if (levens === 3){
+  if (levens === 15){
     appelBadge = true;
   }
 
   if (appelBadge === true){
-    textSize(20); 
+    textSize(17); 
     fill('black'); 
-    text("Appelverzamelaar: 15x", 10, 60);
-    image(appel2.sprite, 210, 45, appel2.size, appel2.size);
+    text("Appelverzamelaar: 15x", 10, 70);
+    image(appel2.sprite, 210, 53, appel2.size, appel2.size);
   }
 
   if (Math.floor(gespeeldeTijd / 1000) === 30){
@@ -302,12 +304,14 @@ function draw() {
   }
   
   if (tijdBadge === true){
-    textSize(20); 
+    textSize(17); 
     fill('black'); 
     text("Tijd Badge : 30 seconden", 10, 90);
   }
 
   if (eve.gehaald) {
+    tijdBadge = false;
+    appelBadge = false;
     background('green');
     textSize(60);
     fill('white');
