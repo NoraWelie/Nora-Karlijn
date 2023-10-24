@@ -4,6 +4,10 @@ var bezetteKolommen = [];
 var appel2;
 
 let appelBadge = false;
+let tijdBadge = false;
+let startTime;
+let gespeeldeTijd = 0;
+
 
 
 class Raster {
@@ -178,6 +182,7 @@ function setup() {
   frameRate(10);
   textFont("Verdana");
   textSize(90);
+  startTime = millis();
 
   raster = new Raster(12,18);
 
@@ -231,6 +236,8 @@ function draw() {
   bob.toon();
   appel.toon();
 
+  gespeeldeTijd = millis() - startTime;
+
   for (var i = 0; i < bommen.length; i++) {
   var bom = bommen[i];
   bom.beweeg();
@@ -258,30 +265,46 @@ function draw() {
     appel.sprite = loadImage("images/sprites/appel_1.png");
   }
 
-
-
-
-  textSize(24); 
+  
+  textSize(20); 
   fill('black'); 
-  text("Aantal levens: " + levens, 10, 30); 
+  text("Aantal levens: " + levens, 10, 30);
+  text("Gespeelde tijd: " + Math.floor(gespeeldeTijd / 1000) + " seconden", 10, 50);
 
   if (levens === 0){
     background('maroon');
     textSize(60);
     fill('white');
-    text("Je hebt verloren...",200,300);
+    text("Helaas Pindakaas!",190,300);
     noLoop();
+    textSize(20);
+    text("Klik op Enter om opnieuw te beginnen", 260, 350);
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Enter") {
+          location.reload();
   }
+});
+  } 
 
-  if (levens === 15){
+  if (levens === 3){
     appelBadge = true;
   }
 
   if (appelBadge === true){
-    textSize(17); 
+    textSize(20); 
     fill('black'); 
     text("Appelverzamelaar: 15x", 10, 60);
     image(appel2.sprite, 210, 45, appel2.size, appel2.size);
+  }
+
+  if (Math.floor(gespeeldeTijd / 1000) === 30){
+    tijdBadge = true;
+  }
+  
+  if (tijdBadge === true){
+    textSize(20); 
+    fill('black'); 
+    text("Tijd Badge : 30 seconden", 10, 90);
   }
 
   if (eve.gehaald) {
@@ -290,5 +313,13 @@ function draw() {
     fill('white');
     text("Je hebt gewonnen!",180,300);
     noLoop();
+    textSize(20);
+      text("Klik op Enter om opnieuw te beginnen", 260, 350);
+      document.addEventListener('keydown', function(event) {
+        if (event.key === "Enter") {
+            location.reload();
+      }
+    });
   }
 }
+
