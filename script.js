@@ -1,12 +1,17 @@
 var bommen = [];
+//lijst van de bommen
 var levens = 1;
+//Het aantal levens aan het begin van het spel
 var bezetteKolommen = [];
 var appel2;
 
 let appelBadge = false;
+//je hebt de badge nog niet
 let tijdBadge = false;
+//zodat je de badge nog niet krijgt
 let startTime;
 let gespeeldeTijd = 0;
+//zorgt ervoor dat aan het begin van het spel de tijd wordt gereset
 
 
 
@@ -68,18 +73,22 @@ class Jos {
       this.y += this.stapGrootte;
       this.frameNummer = 5;
     }
+    //zorgt voor de WASD controls
 
     this.x = constrain(this.x,0,canvas.width);
     this.y = constrain(this.y,0,canvas.height - raster.celGrootte);
+    //zodat Jos niet buiten het speelveld kan
 
     if (this.x == canvas.width) {
       this.gehaald = true;
+    //Als jos de rechterkant van het canvas haalt dat heeft jos het gehaald
     }
   }
 
   wordtGeraakt(vijand) {
     if (this.x == vijand.x && this.y == vijand.y) {
       return true;
+      //als jos op dezelfde plek staat als een vijand wordt het op waar gezet
     }
     else {
       return false;
@@ -88,11 +97,13 @@ class Jos {
 
   eet(appel){
     return this.x === appel.x && this.y === appel.y;
+    //definieerd eet(appel), dus wanneer de x en de y coordinaat hetzelfde zijn van jos en de appel
   }
 
   wordtGeraakt(bom) {
   const afstand = dist(this.x, this.y, bom.x, bom.y);
   return afstand < raster.celGrootte / 2; 
+  //als de bom wordt geraakt
 }
 
   toon() {
@@ -111,13 +122,15 @@ class Vijand {
   beweeg() {
     this.x += floor(random(-1,2))*this.stapGrootte;
     this.y += floor(random(-1,2))*this.stapGrootte;
-
+//dat de vijanden random bewegen met een standaard stapgrootte
     this.x = constrain(this.x,0,canvas.width - raster.celGrootte);
     this.y = constrain(this.y,0,canvas.height - raster.celGrootte);
+  //dat de vijanden binnen het speelveld blijven
   }
 
   toon() {
     image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
+    //hoe groot de vijanden moeten zijn
   }
 }
 
@@ -125,9 +138,12 @@ class Appel{
   constructor() {
 this.x = Math.floor(Math.random() * (canvas.width / raster.celGrootte)) * raster.celGrootte;
     this.y = Math.floor(Math.random() * (canvas.height / raster.celGrootte)) * raster.celGrootte; 
+//zodat de appel op een random plek staat binnen een rasterhokje
     this.sprite = null;
+//er is nog geen plaatje gekoppeld aan de appel
   }
   toon(){   image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
+         //grootte afbeelding
   }
 }
 
@@ -151,12 +167,15 @@ class Bom{
       this.y = maxY; 
     }
 
+    //zodat de bommen/vogeltjes op en neer bewegen en niet helemaal het speelveld uitbewegen
+
     this.y += this.direction * this.speed;
   }
 
 
   toon() {
     image(this.sprite,this.x,this.y,raster.celGrootte,raster.celGrootte);
+    //de grootte van de vogels is gelijk aan een rasterhokje
   }
 }
 
@@ -172,6 +191,7 @@ class Badges{
 
 function preload() {
   brug = loadImage("images/backgrounds/city_skyline.png");
+  //laadt de achtergrond
 }
 
 
@@ -196,11 +216,11 @@ function setup() {
 
   alice = new Vijand(700,200);
   alice.stapGrootte = 1*eve.stapGrootte;
-  alice.sprite = loadImage("images/sprites/Alice100px/Alice.png");
+  alice.sprite = loadImage("images/sprites/bij.png");
 
   bob = new Vijand(600,400);
   bob.stapGrootte = 1*eve.stapGrootte;
-  bob.sprite = loadImage("images/sprites/Bob100px/Bob.png");  
+  bob.sprite = loadImage("images/sprites/bee.png");  
 
   appel = new Appel;
   appel.sprite = loadImage("images/sprites/appel_2.png");
@@ -308,8 +328,8 @@ function draw() {
   if (eve.gehaald) {
     tijdBadge = false;
     appelBadge = false;
-    background('green');
     textSize(60);
+    background
     fill('white');
     text("Je hebt gewonnen!",180,300);
     noLoop();
