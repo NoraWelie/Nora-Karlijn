@@ -329,7 +329,7 @@ function draw() {
     tijdBadge = false;
     appelBadge = false;
     textSize(60);
-    background
+    background('green');
     fill('white');
     text("Je hebt gewonnen!",180,300);
     noLoop();
