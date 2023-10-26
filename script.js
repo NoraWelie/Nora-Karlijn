@@ -143,7 +143,6 @@ class Bom{
 
   beweeg() {
     const maxY = canvas.height - raster.celGrootte;
-
       if (this.y < 0) {
       this.direction = 1;
       this.y = 0;
@@ -172,7 +171,7 @@ class Badges{
 }
 
 function preload() {
-  brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
+  brug = loadImage("images/backgrounds/city_skyline.png");
 }
 
 
@@ -204,7 +203,7 @@ function setup() {
   bob.sprite = loadImage("images/sprites/Bob100px/Bob.png");  
 
   appel = new Appel;
-  appel.sprite = loadImage("images/sprites/appel_1.png");
+  appel.sprite = loadImage("images/sprites/appel_2.png");
 
     for (var i = 0; i < 5; i++) {
         var x, y;
@@ -215,7 +214,7 @@ function setup() {
     y = Math.floor(random(canvas.height - raster.celGrootte));
     var bom = new Bom(x,y);
     bom.stapGrootte = 1 * eve.stapGrootte;
-    bom.sprite = loadImage("images/sprites/bom.png");
+    bom.sprite = loadImage("images/sprites/bluebird_L.png");
     bommen.push(bom);
     bezetteKolommen.push(x);
     bom.speed = random(5,20);
@@ -253,8 +252,6 @@ function draw() {
   }
 }
 
-
-
   if (eve.wordtGeraakt(alice) || eve.wordtGeraakt(bob)) {
     levens -= 1;
   }
@@ -262,10 +259,9 @@ function draw() {
   if (eve.eet(appel)){
     levens += 1;
     appel = new Appel();
-    appel.sprite = loadImage("images/sprites/appel_1.png");
+    appel.sprite = loadImage("images/sprites/appel_2.png");
   }
 
-  
   textSize(20); 
   fill('black'); 
   text("Aantal levens: " + levens, 10, 30);
@@ -280,7 +276,7 @@ function draw() {
     text("Helaas Pindakaas!",190,300);
     noLoop();
     textSize(20);
-    text("Klik op Enter om opnieuw te beginnen", 260, 350);
+    text("Klik op Enter om opnieuw te spelen", 260, 350);
     document.addEventListener('keydown', function(event) {
       if (event.key === "Enter") {
           location.reload();
@@ -318,7 +314,7 @@ function draw() {
     text("Je hebt gewonnen!",180,300);
     noLoop();
     textSize(20);
-      text("Klik op Enter om opnieuw te beginnen", 260, 350);
+      text("Klik op Enter om opnieuw te spelen", 260, 350);
       document.addEventListener('keydown', function(event) {
         if (event.key === "Enter") {
             location.reload();
