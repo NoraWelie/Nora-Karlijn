@@ -7,6 +7,7 @@ var levens = 1;
 var bezetteKolommen = [];
 var appel2;
 
+
 let appelBadge = false;
 //je hebt de badge nog niet
 let tijdBadge = false;
@@ -14,7 +15,6 @@ let tijdBadge = false;
 let startTime;
 let gespeeldeTijd = 0;
 //zorgt ervoor dat aan het begin van het spel de tijd wordt gereset
-
 
 
 class Raster {
@@ -26,6 +26,7 @@ class Raster {
   }
   //dit wordt uitgevoerd wanneer het object wordt aangemaakt
 
+  
   berekenCelGrootte() {
     this.celGrootte = canvas.width / this.aantalKolommen;
   }
@@ -48,6 +49,7 @@ class Raster {
     pop();
   }
 }
+
 
 class Jos {
   constructor() {
@@ -90,6 +92,7 @@ class Jos {
     }
   }
 
+  
   wordtGeraakt(vijand) {
     if (this.x == vijand.x && this.y == vijand.y) {
       return true;
@@ -100,6 +103,7 @@ class Jos {
     }
   }
 
+  
   eet(appel){
     return this.x === appel.x && this.y === appel.y;
     //definieerd eet(appel), dus wanneer de x en de y coordinaat hetzelfde zijn van jos en de appel
@@ -115,6 +119,7 @@ class Jos {
     image(this.animatie[this.frameNummer],this.x,this.y,raster.celGrootte,raster.celGrootte);
   }
 }  
+
 
 class Vijand {
   constructor(x,y) {
@@ -139,11 +144,12 @@ class Vijand {
   }
 }
 
+
 class Appel{
   constructor() {
 this.x = Math.floor(Math.random() * (canvas.width / raster.celGrootte)) * raster.celGrootte;
     this.y = Math.floor(Math.random() * (canvas.height / raster.celGrootte)) * raster.celGrootte; 
-//zodat de appel op een random plek staat binnen een rasterhokje
+//zodat de appel op een random plek staat binnen een rasterhokje (gebruik gemaakt van Chat-GPT, maar we snappen wel hoe het werkt)
     this.sprite = null;
 //er is nog geen plaatje gekoppeld aan de appel
   }
@@ -151,7 +157,6 @@ this.x = Math.floor(Math.random() * (canvas.width / raster.celGrootte)) * raster
          //grootte afbeelding
   }
 }
-
 
 
 class Bom{
@@ -186,6 +191,7 @@ class Bom{
   }
 }
 
+
 class Badges{
   constructor (x,y){
     this.x = x;
@@ -196,6 +202,7 @@ class Badges{
   //zet de badges linksboven vast
 
 }
+
 
 function preload() {
   brug = loadImage("images/backgrounds/city_skyline.png");
@@ -248,16 +255,21 @@ function setup() {
       
     var bom = new Bom(x,y);
     bom.stapGrootte = 1 * eve.stapGrootte;
+      //de stapgrrotte is gelijk aan de eve stapgrootte
     bom.sprite = loadImage("images/sprites/bluebird_L.png");
+      //zorgt ervoor dat de bommen eruit zien als blauwe vogeltjes
     bommen.push(bom);
+      //zodat een bom wordt toegevoegd aan het bommen array
     bezetteKolommen.push(x);
+      //houdt bij welke kollommen al bezet zijn
     bom.speed = random(5,20);
+      //zorgt voor een random snelheid
   }
   appel2 = new Badges(20, 70);
   appel2.sprite = loadImage("images/sprites/appel_2.png");
 
-
 }
+
 
 function draw() {
   background(brug);
@@ -265,6 +277,7 @@ function draw() {
   eve.beweeg();
   alice.beweeg();
   bob.beweeg();
+  //dit zorgt dat alles kan bewegen
 
   eve.toon();
   alice.toon();
