@@ -147,6 +147,8 @@ this.x = Math.floor(Math.random() * (canvas.width / raster.celGrootte)) * raster
   }
 }
 
+
+
 class Bom{
   constructor(x,y) {
     this.x = x;
@@ -186,12 +188,14 @@ class Badges{
     this.sprite = null;
     this.size = 20;
   }
+  //zet de badges linksboven vast
 
 }
 
 function preload() {
   brug = loadImage("images/backgrounds/city_skyline.png");
   //laadt de achtergrond
+  hartAfbeelding = loadImage("images/leven.png");
 }
 
 
@@ -202,8 +206,10 @@ function setup() {
   textFont("Verdana");
   textSize(90);
   startTime = millis();
+  //dit maakt het canvas waarop alles wordt weergege
 
   raster = new Raster(12,18);
+  //bepaald de grootte van het raster
 
   raster.berekenCelGrootte();
 
@@ -241,6 +247,8 @@ function setup() {
   }
   appel2 = new Badges(20, 70);
   appel2.sprite = loadImage("images/sprites/appel_2.png");
+
+
 }
 
 function draw() {
@@ -281,15 +289,23 @@ function draw() {
     appel = new Appel();
     appel.sprite = loadImage("images/sprites/appel_2.png");
   }
+  
+  for (let i = 0; i < levens; i++) {
+    //Dit tekent met het aantal levens een aantal hartjes
+    image(hartAfbeelding, 190 + i * (raster.celGrootte * 0.5 + 5), 5, hartAfbeelding.width * 0.2, hartAfbeelding.height * 0.2);
+    //dit zorgt ervoor dat de afbeeldingen van de hartjes in het raster worden gezet, dat ze iets kleiner zijn dan het raster zelf en dat ze op een bepaalde afstand van elkaar worden neergezet, hier heeft chatGPT meegeholpen, de index had ik zelf ook bedacht maar hoe ik de afbeelding kleiner kreeg lukte zelf niet.
+  }
 
   textSize(20); 
   fill('black'); 
   text("Aantal levens: " + levens, 10, 30);
-  text("Gespeelde tijd: " + Math.floor(gespeeldeTijd / 1000) + " seconden", 10, 50);
+  text("Gespeelde tijd: " + Math.floor(gespeeldeTijd / 1000) + " seconden", 10, 70);
+  //dit laat de twee badges zien wanneer ze zijn gehaald, en zet ze op de goede plek
 
   if (levens === 0){
     tijdBadge = false;
     appelBadge = false;
+    //zorgt ervoor dat de badges verdwijnen als het spel over is
     background('maroon');
     textSize(60);
     fill('white');
@@ -300,36 +316,42 @@ function draw() {
     document.addEventListener('keydown', function(event) {
       if (event.key === "Enter") {
           location.reload();
+        //zorgt ervoor dat je het spel opnieuw kan opstarten nadat je hebt verloren dmv de if en de Enter key
   }
 });
   } 
 
   if (levens === 15){
     appelBadge = true;
+    //als je 15 levens hebt gehaald (oftewel 15 appels hebt gegeten) dan zorgt dit ervoor dat dit wordt geregistreerd
   }
 
   if (appelBadge === true){
     textSize(17); 
     fill('black'); 
-    text("Appelverzamelaar: 15x", 10, 70);
-    image(appel2.sprite, 210, 53, appel2.size, appel2.size);
+    text("Appelverzamelaar: 15x", 10, 90);
+    image(appel2.sprite, 210, 73, appel2.size, appel2.size);
+    //zorgt ervoor dat er ook in het scherm wordt laten zien dat je de appelbadge hebt gehaald, dmv de if hierboven
   }
 
   if (Math.floor(gespeeldeTijd / 1000) === 30){
     tijdBadge = true;
+    //dit zorgt ervoor dat als je 30 seconden het spel hebt 'gerunned' dat je dan de tijdbadge krijgt
   }
   
   if (tijdBadge === true){
     textSize(17); 
     fill('black'); 
-    text("Tijd Badge : 30 seconden", 10, 90);
+    text("Tijd Badge : 30 seconden", 10, 110);
+    //zorgt er voor dat er in het scherm staat dat je 30 seconden hebt overleefd in het spel, staat in relatie tot de if hierboven
   }
 
   if (eve.gehaald) {
     tijdBadge = false;
     appelBadge = false;
-    textSize(60);
+    //dit haalt de badges weg, anders zouden ze namelijk nog in beeld staan
     background('green');
+    textSize(60);
     fill('white');
     text("Je hebt gewonnen!",180,300);
     noLoop();
@@ -338,6 +360,7 @@ function draw() {
       document.addEventListener('keydown', function(event) {
         if (event.key === "Enter") {
             location.reload();
+          //Dit zorgt ervoor dat je het spel opnieuw kan opstarten door op enter te klikken, dmv de reload
       }
     });
   }
