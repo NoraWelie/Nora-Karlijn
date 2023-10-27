@@ -1,3 +1,5 @@
+//alle commentaar slaat op de regel daarboven, dus bijvoorbeeld de //lijst van de bommen, slaat op de var bommen
+
 var bommen = [];
 //lijst van de bommen
 var levens = 1;
@@ -22,6 +24,7 @@ class Raster {
     this.celGrootte = null;
     this.orangeRegel = r;
   }
+  //dit wordt uitgevoerd wanneer het object wordt aangemaakt
 
   berekenCelGrootte() {
     this.celGrootte = canvas.width / this.aantalKolommen;
@@ -38,6 +41,7 @@ class Raster {
         } else{
           noFill();
         }
+        //dit betekent dat het raster wordt getekend en dat er een kolom en rij oranje wordt gemaakt
         rect(kolom*this.celGrootte,rij*this.celGrootte,this.celGrootte,this.celGrootte);
       }
     }
@@ -54,6 +58,7 @@ class Jos {
     this.stapGrootte = null;
     this.gehaald = false;
   }
+  //dit wordt uitgevoerd wanneer het object wordt aangemaakt
 
 
   beweeg() {
@@ -201,12 +206,12 @@ function preload() {
 
 function setup() {
   canvas = createCanvas(900,600);
+  //dit maakt het canvas waarop alles wordt weergegeven
   canvas.parent();
   frameRate(10);
   textFont("Verdana");
   textSize(90);
   startTime = millis();
-  //dit maakt het canvas waarop alles wordt weergege
 
   raster = new Raster(12,18);
   //bepaald de grootte van het raster
@@ -232,12 +237,15 @@ function setup() {
   appel.sprite = loadImage("images/sprites/appel_2.png");
 
     for (var i = 0; i < 5; i++) {
+      //loop gebeurt 5 keer, voor de 5 bommen
         var x, y;
     do {
       x = (Math.floor(Math.random() * (canvas.width / raster.celGrootte / 2)) + Math.floor(canvas.width / raster.celGrootte / 2)) * raster.celGrootte;
   } while (bezetteKolommen.includes(x));
-
+// de math.random kies een random getal tussen 0 en 1, math.floor zorgt ervoor dat een getal afgerond word en alles samen zorgt ervoor dat de x variabele een random plek is, binnen het canvas en in een rasterhokje.
     y = Math.floor(random(canvas.height - raster.celGrootte));
+      
+      
     var bom = new Bom(x,y);
     bom.stapGrootte = 1 * eve.stapGrootte;
     bom.sprite = loadImage("images/sprites/bluebird_L.png");
@@ -262,6 +270,7 @@ function draw() {
   alice.toon();
   bob.toon();
   appel.toon();
+  //dit tekent alles
 
   gespeeldeTijd = millis() - startTime;
 
@@ -274,7 +283,7 @@ function draw() {
   }
 
   bom.toon();
-
+//laat de bommen bewegen
   if (eve.wordtGeraakt(bom)) {
     levens -= 1;
   }
@@ -289,7 +298,7 @@ function draw() {
     appel = new Appel();
     appel.sprite = loadImage("images/sprites/appel_2.png");
   }
-  
+  //regelt dat als je een appel eet dat je er een leven bij krijgt, en dat als je wordt geraakt dat je er dan een leven af krijgt
   for (let i = 0; i < levens; i++) {
     //Dit tekent met het aantal levens een aantal hartjes
     image(hartAfbeelding, 190 + i * (raster.celGrootte * 0.5 + 5), 5, hartAfbeelding.width * 0.2, hartAfbeelding.height * 0.2);
